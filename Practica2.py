@@ -9,17 +9,21 @@ long_min = int(math.log2(len(alfabeto)))
 
 #Funcion que separa el mensaje en bloques de 7 digitos
 def generaCod2(msj_entrada):
+    palabra = []
     listaCod2 = []
+    count = 0
 
     #Bucle que recorre todos los caracteres del mensaje
     for i in range(len(msj_entrada)):
-        palabra = []
 
         #Bucle que da n = 7 vueltas(nos da el codigo despues de multiplicar por la matriz generadora)
-        for j in range(7):
-            palabra.append(msj_entrada[i])
+        palabra.append(msj_entrada[i])
+        count += 1
+        if count > 6:
+            listaCod2.append(palabra)
+            count = 0
+            palabra = []
         
-        listaCod2.append(palabra)
 
     return listaCod2
 
@@ -35,30 +39,38 @@ def eliminaSobrantes(listaCod2):
 
 def generaCod1(listaCod):
     listaBloques = []
+    palabra = []
+    count = 0
 
     for i in range(len(listaCod)):
-        palabra = []
-        for j in range(6):
-            palabra.append(listaCod[i])
+        palabra.append(listaCod[i])
+        count += 1
+        if count > 5:
+            listaBloques.append(palabra)
+            count = 0
+            palabra = []
 
         listaBloques.append(palabra)
   
     return listaBloques
 
 def corrigeNums(listaBloques):
-    for i in listaBloques:
-        for j in range(1,len(i)):
-            while i[j] == 0:
-                del i[j]
+    for i in range(len(listaBloques)):
+        num = listaBloques[i]
+        for j in range(len(num)):
+            if num[0] == 0:
+                del num[0]
     return listaBloques
 
 def generaMsj(listaBloques):
     listaLetras = []
     for i in listaBloques:
-        strAux = ""
-        strAux.join(map(str,i))    
-        listaLetras.append(alfabeto[int(strAux,2)])
+        if len(i) != 0:
+            strAux = ""
+            for j in range(len(i)):
+                strAux += str(i[j])   
+            listaLetras.append(alfabeto[int(strAux,2)])
     return listaLetras
 
-
+print(generaCod1(eliminaSobrantes(generaCod2(msj_entrada))))
 print(generaMsj(corrigeNums(generaCod1(eliminaSobrantes(generaCod2(msj_entrada))))))
