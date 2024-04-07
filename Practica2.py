@@ -53,12 +53,22 @@ def genera_msj(lista_bloques):
 
 
 def calcula_sindrome(msj):
-    matriz_control_hamming = np.array([[0, 0, 0, 1, 1, 1, 1], [0, 1, 1, 0, 0, 1, 1], [1, 0, 1, 0, 1, 0, 1]])
+    # Calcula la matriz que contiene los síndromes de cada una de las palabras código
+    m_control_hamming = np.array([[0, 0, 0, 1, 1, 1, 1], [0, 1, 1, 0, 0, 1, 1], [1, 0, 1, 0, 1, 0, 1]])
     cod2 = genera_cod2(msj)
-    matriz_msj = np.transpose(np.array([cod for cod in cod2]))
+    m_msj = np.transpose(np.array([cod for cod in cod2]))
 
+    m_sindrome = m_control_hamming.dot(m_msj)
 
-    print(matriz_msj)
+    for elem in m_sindrome:
+        for i, num in enumerate(elem):
+            if num % 2 == 0:
+                elem[i] = 0
+            else:
+                elem[i] = 1
+
+    return m_sindrome
+
 
 msj_entrada = "0000101010011011011110101101011111"
 alfabeto = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ,.-;()0123456789abcdeéfghiíjklmnñoópqrstuvwxyz"
