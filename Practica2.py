@@ -52,7 +52,7 @@ def genera_msj(lista_bloques):
     return lista_letras
 
 
-def calcula_sindrome(msj):
+def calcula_matriz_sindrome(msj):
     # Calcula la matriz que contiene los síndromes de cada una de las palabras código
     m_control_hamming = np.array([[0, 0, 0, 1, 1, 1, 1], [0, 1, 1, 0, 0, 1, 1], [1, 0, 1, 0, 1, 0, 1]])
     cod2 = genera_cod2(msj)
@@ -60,23 +60,39 @@ def calcula_sindrome(msj):
 
     m_sindrome = m_control_hamming.dot(m_msj)
 
-    for elem in m_sindrome:
-        for i, num in enumerate(elem):
+    for fila in m_sindrome:
+        for i, num in enumerate(fila):
             if num % 2 == 0:
-                elem[i] = 0
+                fila[i] = 0
             else:
-                elem[i] = 1
+                fila[i] = 1
 
     return m_sindrome
 
 
-msj_entrada = "0000101010011011011110101101011111"
+def calcula_pos_sindrome(m_sindrome):
+    # Calcula la posición equivalente a cada uno de los síndrome, en decimal
+    m_sind_trasp = np.transpose(m_sindrome)
+
+    lista_pos = []
+    
+    for fila in m_sind_trasp:
+        res = 0
+        for i, num in enumerate(fila):
+            res += num * 2 ** (len(fila) - i - 1)
+
+        lista_pos.append(res)
+
+    return lista_pos
+
+msj_entrada = "00001010100110110111101011010111111"
 alfabeto = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ,.-;()0123456789abcdeéfghiíjklmnñoópqrstuvwxyz"
 long_min = int(math.log2(len(alfabeto))) + 1
 
 ruido = "si" == input("¿Hay ruido?: ").lower()
 
 if ruido:
-    calcula_sindrome(msj_entrada)
+    calcula_pos_sindrome(calcula_matriz_sindrome(msj_entrada))
+
 else:
     print(genera_msj(elimina_sobrantes(genera_cod2(msj_entrada))))
