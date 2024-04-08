@@ -2,8 +2,8 @@ import math
 import numpy as np
 
 
-# Funcion que separa el mensaje en bloques de 7 digitos
 def genera_cod2(msj_entrada):
+    # Funcion que separa el mensaje en bloques de 7 digitos
     palabra = []
     lista_cod2 = []
     count = 0
@@ -22,8 +22,8 @@ def genera_cod2(msj_entrada):
     return lista_cod2
 
 
-# Funcion que elimina los 3 ultimos numeros de cada grupo de 7 digitos
 def elimina_sobrantes(lista_cod2):
+    # Funcion que elimina los 3 ultimos numeros de cada grupo de 7 digitos
     lista_cod1=[]
 
     for i in lista_cod2:
@@ -36,7 +36,7 @@ def elimina_sobrantes(lista_cod2):
 
 # Funcion que agrupa los digitos de 6 en 6, los traduce de binario a decimal, obtiene la letra y devuelve el mensaje
 def genera_msj(lista_bloques):
-    # print(lista_bloques)
+    # Funcion que agrupa los digitos de 6 en 6, los traduce de binario a decimal, obtiene la letra y devuelve el mensaje
     lista_letras = ""
     str_aux = ""
     count = 0
@@ -98,8 +98,9 @@ def corrige_errores(posiciones, cod2):
     return cod2
 
 
-msj_entrada = input("Escribe el mensaje: ").replace('"', "")
+# Flujo principal de ejecución
 alfabeto = input("Escribe el alfabeto: ").replace('"', "")
+msj_entrada = input("Escribe el mensaje: ").replace('"', "")
 long_min = int(math.log2(len(alfabeto))) + 1
 
 ruido = "si" == input("¿Hay ruido?: ").lower()
